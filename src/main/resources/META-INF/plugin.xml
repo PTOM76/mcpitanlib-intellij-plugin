@@ -5,7 +5,8 @@
     <vendor url="https://github.com/PTOM76">Pitan76</vendor>
 
     <description><![CDATA[
-    MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。This is a plugin that automatically sets up a mod from a template for MCPitanLib
+    MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。
+    This is a plugin that automatically sets up a mod from a template for MCPitanLib
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
