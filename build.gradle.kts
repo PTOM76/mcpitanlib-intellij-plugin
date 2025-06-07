@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.pitan76"
-version = "1.0.0"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
