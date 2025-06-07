@@ -1,0 +1,19 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>net.pitan76.MPLTemplateIDEPlugin</id>
+    <name>TemplateMod for MCPitanLib</name>
+    <vendor url="https://github.com/PTOM76">Pitan76</vendor>
+
+    <description><![CDATA[
+    MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.java</depends>
+    <resource-bundle>languages.lang</resource-bundle>
+    <extensions defaultExtensionNs="com.intellij">
+        <moduleBuilder builderClass="net.pitan76.mpltemplateideplugin.MPLProjectModuleBuilder"/>
+        <notificationGroup id="TemplateMod" displayType="BALLOON" bundle="languages.lang"
+                           key="notification.group.templatemod"/>
+    </extensions>
+</idea-plugin>
