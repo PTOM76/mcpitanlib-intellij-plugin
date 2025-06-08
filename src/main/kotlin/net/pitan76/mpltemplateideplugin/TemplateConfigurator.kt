@@ -6,6 +6,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.intellij.openapi.util.io.FileUtil
 import java.io.File
 
 class TemplateConfigurator(private val project: Project) {
@@ -22,11 +23,14 @@ class TemplateConfigurator(private val project: Project) {
             updateFabricModJson(basePath, config)
             updateNeoForgeModsToml(basePath, config)
             updateForgeModsToml(basePath, config)
+            updateForgeBuildGradle(basePath, config)
             renamePackages(basePath, config)
             updateMainClass(basePath, config)
             renameMixins(basePath, config)
+            renameAssetsAndData(basePath, config)
+            updatePackMcmeta(basePath, config)
 
-            generateLicense(
+            generateLicense(basePath,
                 config.license,
                 config.authors
             )
@@ -108,6 +112,7 @@ class TemplateConfigurator(private val project: Project) {
         jsonObject.addProperty("description", config.description)
         jsonObject.add("authors", gson.toJsonTree(config.authors.split(",")))
         jsonObject.addProperty("icon", "assets/${config.modId}/icon.png")
+        jsonObject.addProperty("license", config.license)
 
         // entrypoints.main[] の更新
         val mainEntrypoints = jsonObject.getAsJsonObject("entrypoints").getAsJsonArray("main")
@@ -146,6 +151,7 @@ class TemplateConfigurator(private val project: Project) {
             .replace("description = '''\n\n'''", "description = '''\n${config.description}\n'''")
             .replace("config = \"examplemod-common.mixins.json\"", "config = \"${config.modId}-common.mixins.json\"")
             .replace("config = \"examplemod.mixins.json\"", "config = \"${config.modId}.mixins.json\"")
+            .replace("license = \"MIT\"", "license = \"${config.license}\"")
 
         file.writeText(newContent)
 
@@ -159,6 +165,7 @@ class TemplateConfigurator(private val project: Project) {
             .replace("description = '''\n\n'''", "description = '''\n${config.description}\n'''")
             .replace("config = \"examplemod-common.mixins.json\"", "config = \"${config.modId}-common.mixins.json\"")
             .replace("config = \"examplemod.mixins.json\"", "config = \"${config.modId}.mixins.json\"")
+            .replace("license = \"MIT\"", "license = \"${config.license}\"")
 
         file.writeText(newContent2)
 
@@ -173,6 +180,19 @@ class TemplateConfigurator(private val project: Project) {
             .replace("authors = \"Pitan\"", "authors = \"${config.authors}\"")
             .replace("logoFile = \"assets/examplemod/icon.png\"", "logoFile = \"assets/${config.modId}/icon.png\"")
             .replace("description = '''\n\n'''", "description = '''\n${config.description}\n'''")
+            .replace("license = \"MIT\"", "license = \"${config.license}\"")
+
+        file.writeText(newContent)
+    }
+
+    private fun updateForgeBuildGradle(basePath: String, config: ProjectConfig) {
+        val file = File(basePath, "forge/build.gradle")
+        if (!file.exists()) return
+
+        val content = file.readText()
+        val newContent = content
+            .replace("mixinConfig \"examplemod-common.mixins.json\"", "mixinConfig \"${config.modId}-common.mixins.json\"")
+            .replace("mixinConfig \"examplemod.mixins.json\"", "mixinConfig \"${config.modId}.mixins.json\"")
 
         file.writeText(newContent)
     }
@@ -214,7 +234,15 @@ class TemplateConfigurator(private val project: Project) {
             }
 
             oldPackageDir.deleteRecursively()
+            cleanupEmptyParentDirectories(srcDir, oldPackageDir)
         }
+    }
+
+    private fun cleanupEmptyParentDirectories(baseDir: File, dir: File) {
+        var currentDir = dir
+
+        while (!FileUtil.filesEqual(currentDir, baseDir) && currentDir.delete())
+            currentDir = currentDir.parentFile
     }
 
     private fun renameMixins(basePath: String, config: ProjectConfig) {
@@ -239,6 +267,36 @@ class TemplateConfigurator(private val project: Project) {
 
                 commonMixinFile.delete()
                 newCommonMixinFile.writeText(newContent)
+            }
+        }
+    }
+
+    private fun renameAssetsAndData(basePath: String, config: ProjectConfig) {
+        val commonResources = File(basePath, "common/src/main/resources")
+        if (commonResources.exists()) {
+            val assetsDir = File(commonResources, "assets/examplemod")
+            val dataDir = File(commonResources, "data/examplemod")
+
+            if (assetsDir.exists()) {
+                assetsDir.renameTo(File(commonResources, "assets/${config.modId}"))
+            }
+            if (dataDir.exists()) {
+                dataDir.renameTo(File(commonResources, "data/${config.modId}"))
+            }
+        }
+    }
+
+    private fun updatePackMcmeta(basePath: String, config: ProjectConfig) {
+        val platforms = listOf("forge", "neoforge")
+        platforms.forEach { platform ->
+            val file = File(basePath, "$platform/src/main/resources/pack.mcmeta")
+            if (file.exists()) {
+                val content = file.readText()
+                val newContent = content
+                    .replace("examplemod", config.modId)
+                    .replace("Example Mod", config.modName)
+
+                file.writeText(newContent)
             }
         }
     }

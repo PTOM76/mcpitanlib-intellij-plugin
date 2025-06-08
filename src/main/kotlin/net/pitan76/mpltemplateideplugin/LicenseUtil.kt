@@ -3,7 +3,7 @@ package net.pitan76.mpltemplateideplugin
 import java.io.File
 import java.time.Year
 
-fun generateLicense(license: String, author: String) {
+fun generateLicense(basePath: String, license: String, author: String) {
     val licenseTemplates = mapOf(
         "MIT" to """
             MIT License
@@ -76,6 +76,6 @@ fun generateLicense(license: String, author: String) {
     )
 
     val licenseContent = licenseTemplates[license] ?: "No license selected."
-    val licenseFile = File("LICENSE")
+    val licenseFile = File(basePath, "LICENSE")
     licenseFile.writeText(licenseContent)
 }
