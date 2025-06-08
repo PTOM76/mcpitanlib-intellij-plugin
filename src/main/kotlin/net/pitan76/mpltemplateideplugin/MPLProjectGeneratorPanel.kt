@@ -122,13 +122,13 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
     override fun getComponent(): JComponent {
         return panel {
             group(Lang.get("label.basicsettings")) {
-                row("Mod ID:") { cell(modIdField).comment(Lang.get("comment.mod.id")) }
-                row("Mod Name:") { cell(modNameField).comment(Lang.get("comment.mod.name")) }
+                row("Mod ID:") { cell(modIdField) }
+                row("Mod Name:") { cell(modNameField) }
                 row("Version:") { cell(modVersionField) }
-                row("Maven Group:") { cell(mavenGroupField).comment(Lang.get("comment.maven.group")) }
-                row("Package Name:") { cell(packageNameField).comment(Lang.get("comment.package.name")) }
-                row("Class Name:") { cell(classNameField).comment(Lang.get("comment.class.name")) }
-                row("Authors:") { cell(authorsField).comment(Lang.get("comment.authors")) }
+                row("Maven Group:") { cell(mavenGroupField) }
+                row("Package Name:") { cell(packageNameField) }
+                row("Class Name:") { cell(classNameField) }
+                row("Authors:") { cell(authorsField) }
                 row("Description:") { scrollCell(descriptionArea) }
             }
             group(Lang.get("label.versionsettings")) {

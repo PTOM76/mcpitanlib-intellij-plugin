@@ -5,16 +5,16 @@
     <vendor url="https://github.com/PTOM76">Pitan76</vendor>
 
     <description><![CDATA[
-    MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。
     This is a plugin that automatically sets up a mod from a template for MCPitanLib
+    MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.java</depends>
-    <resource-bundle>languages.lang</resource-bundle>
+    <resource-bundle>messages.lang</resource-bundle>
     <extensions defaultExtensionNs="com.intellij">
         <moduleBuilder builderClass="net.pitan76.mpltemplateideplugin.MPLProjectModuleBuilder"/>
-        <notificationGroup id="TemplateMod" displayType="BALLOON" bundle="languages.lang"
+        <notificationGroup id="TemplateMod" displayType="BALLOON" bundle="messages.lang"
                            key="notification.group.templatemod"/>
     </extensions>
 </idea-plugin>
