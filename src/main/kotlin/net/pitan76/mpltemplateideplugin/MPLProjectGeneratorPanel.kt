@@ -78,42 +78,58 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
     init {
         setupVersionFetching()
 
-        // modIdField の変更を監視してクラス名とパッケージ名を同期
         modIdField.document.addDocumentListener(object : DocumentListener {
             override fun insertUpdate(e: DocumentEvent?) {
-                handleModIdChange()
+                handleChange()
             }
 
             override fun removeUpdate(e: DocumentEvent?) {
-                handleModIdChange()
+                handleChange()
             }
 
             override fun changedUpdate(e: DocumentEvent?) {
-                handleModIdChange()
+                handleChange()
+            }
+        })
+
+        mavenGroupField.document.addDocumentListener(object : DocumentListener {
+            override fun insertUpdate(e: DocumentEvent?) {
+                if (isHandleChanging) return
+                handleChange()
+            }
+
+            override fun removeUpdate(e: DocumentEvent?) {
+                if (isHandleChanging) return
+                handleChange()
+            }
+
+            override fun changedUpdate(e: DocumentEvent?) {
+                if (isHandleChanging) return
+                handleChange()
             }
         })
 
         classNameField.document.addDocumentListener(object : DocumentListener {
             override fun insertUpdate(e: DocumentEvent?) {
-                if (isChangingByHandleModIdChange) return
+                if (isHandleChanging) return
                 isClassNameManuallyChanged = true
             }
 
             override fun removeUpdate(e: DocumentEvent?) {
-                if (isChangingByHandleModIdChange) return
+                if (isHandleChanging) return
                 isClassNameManuallyChanged = true
             }
 
             override fun changedUpdate(e: DocumentEvent?) {
-                if (isChangingByHandleModIdChange) return
+                if (isHandleChanging) return
                 isClassNameManuallyChanged = true
             }
         })
     }
 
-    private var isChangingByHandleModIdChange = false
-    private fun handleModIdChange() {
-        isChangingByHandleModIdChange = true
+    private var isHandleChanging = false
+    private fun handleChange() {
+        isHandleChanging = true
 
         val modId = modIdField.text.trim()
 
@@ -128,7 +144,7 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
             packageNameField.text = "$mavenGroup.$modId".lowercase()
         }
 
-        isChangingByHandleModIdChange = false
+        isHandleChanging = false
     }
 
     override fun getComponent(): JComponent {
