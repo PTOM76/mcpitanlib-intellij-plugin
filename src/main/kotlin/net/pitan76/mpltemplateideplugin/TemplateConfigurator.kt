@@ -35,7 +35,6 @@ class TemplateConfigurator(private val project: Project) {
                 config.authors
             )
 
-            // gitを初期化 git initを実行
             val gitDir = File(basePath, ".git")
             if (!gitDir.exists()) {
                 ProcessBuilder("git", "init")
