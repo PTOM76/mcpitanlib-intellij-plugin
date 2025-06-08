@@ -155,7 +155,7 @@ class TemplateConfigurator(private val project: Project) {
 
         file.writeText(newContent)
 
-        val file2 = File(basePath, "neoforge/src/main/resources/META-INF/forge.mods.toml")
+        val file2 = File(basePath, "neoforge/src/main/resources/META-INF/mods.toml")
         if (!file2.exists()) return
 
         val content2 = file2.readText()
@@ -222,7 +222,7 @@ class TemplateConfigurator(private val project: Project) {
             newPackageDir.parentFile.mkdirs()
 
             oldPackageDir.walkTopDown().forEach { file ->
-                if (file.isFile && file.extension == "java") {
+                if (file.isFile) {
                     val content = file.readText()
                     val newContent = content.replace(oldPackage, newPackage)
 
@@ -234,7 +234,7 @@ class TemplateConfigurator(private val project: Project) {
             }
 
             oldPackageDir.deleteRecursively()
-            cleanupEmptyParentDirectories(srcDir, oldPackageDir)
+            cleanupEmptyParentDirectories(srcDir, oldPackageDir.parentFile)
         }
     }
 
