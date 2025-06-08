@@ -167,7 +167,7 @@ class TemplateConfigurator(private val project: Project) {
             .replace("config = \"examplemod.mixins.json\"", "config = \"${config.modId}.mixins.json\"")
             .replace("license = \"MIT\"", "license = \"${config.license}\"")
 
-        file.writeText(newContent2)
+        file2.writeText(newContent2)
 
     }
 
