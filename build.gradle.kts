@@ -37,7 +37,7 @@ intellijPlatform {
         }
 
         changeNotes = """
-      Initial version
+            Fixes an issue
     """.trimIndent()
     }
 }

@@ -6,7 +6,6 @@ import com.intellij.ui.dsl.builder.panel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.swing.Swing
 import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
@@ -58,7 +57,6 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
     private val neoforgeCheck = JCheckBox("NeoForge", true)
 
     private val versionFetcher = MPLVersionUtil()
-    private val scope = CoroutineScope(Dispatchers.Swing)
 
     // クラス名がユーザーにより手動変更されたかどうか
     private var isClassNameManuallyChanged = false
@@ -154,19 +152,25 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
         mcpitanlibVersionCombo.removeAllItems()
         mcpitanlibVersionCombo.addItem(Lang.get("label.fetching"))
 
-        scope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val versions = versionFetcher.getVersions(selectedVersion)
-                mcpitanlibVersionCombo.removeAllItems()
-                versions.forEach { mcpitanlibVersionCombo.addItem(it) }
-                if (mcpitanlibVersionCombo.itemCount == 0) {
-                    mcpitanlibVersionCombo.addItem(Lang.get("label.failedfetching"))
-                } else {
+
+                SwingUtilities.invokeLater {
+                    mcpitanlibVersionCombo.removeAllItems()
+                    versions.forEach { mcpitanlibVersionCombo.addItem(it) }
+
+                    if (mcpitanlibVersionCombo.itemCount == 0) {
+                        mcpitanlibVersionCombo.addItem(Lang.get("label.failedfetching"))
+                        return@invokeLater
+                    }
                     mcpitanlibVersionCombo.selectedItem = versions.lastOrNull()
                 }
             } catch (e: Exception) {
-                mcpitanlibVersionCombo.removeAllItems()
-                mcpitanlibVersionCombo.addItem(Lang.get("label.failedfetching"))
+                SwingUtilities.invokeLater {
+                    mcpitanlibVersionCombo.removeAllItems()
+                    mcpitanlibVersionCombo.addItem(Lang.get("label.failedfetching"))
+                }
                 e.printStackTrace()
             }
         }
