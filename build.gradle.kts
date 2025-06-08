@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.pitan76"
-version = "0.0.3"
+version = "0.0.4"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,6 @@ repositories {
 dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
 
     intellijPlatform {
         create("IC", "2024.2.5")
@@ -34,6 +33,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "242"
+            untilBuild = null
         }
 
         changeNotes = """
