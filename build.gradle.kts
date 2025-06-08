@@ -19,7 +19,7 @@ dependencies {
 }
 
 intellij {
-    version.set("2024.3.6")
+    version.set("2024.3.5")
     type.set("IC")
     plugins.set(listOf("java"))
     updateSinceUntilBuild.set(false)
