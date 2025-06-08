@@ -234,15 +234,15 @@ class TemplateConfigurator(private val project: Project) {
             }
 
             oldPackageDir.deleteRecursively()
-            cleanupEmptyParentDirectories(srcDir, oldPackageDir.parentFile)
+            removeEmptyDirs(srcDir, oldPackageDir.parentFile)
         }
     }
 
-    private fun cleanupEmptyParentDirectories(baseDir: File, dir: File) {
-        var currentDir = dir
+    private fun removeEmptyDirs(baseDir: File, dir: File) {
+        var current = dir
 
-        while (!FileUtil.filesEqual(currentDir, baseDir) && currentDir.delete())
-            currentDir = currentDir.parentFile
+        while (!FileUtil.filesEqual(current, baseDir) && current.delete())
+            current = current.parentFile
     }
 
     private fun renameMixins(basePath: String, config: ProjectConfig) {
