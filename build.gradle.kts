@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.pitan76"
-version = "0.0.4"
+version = "0.0.5"
 
 repositories {
     mavenCentral()
@@ -31,11 +31,6 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        ideaVersion {
-            sinceBuild = "242"
-            untilBuild = null
-        }
-
         changeNotes = """
             Fixes an issue
     """.trimIndent()

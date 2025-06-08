@@ -3,7 +3,7 @@
     <id>net.pitan76.MPLTemplateIDEPlugin</id>
     <name>TemplateMod for MCPitanLib</name>
     <vendor url="https://github.com/PTOM76">Pitan76</vendor>
-
+    <idea-version since-build="242" />
     <description><![CDATA[
     This is a plugin that automatically sets up a mod from a template for MCPitanLib
     MCPitanLib用のテンプレートから自動でMODをセットアップするためのプラグインです。
