@@ -1,4 +1,4 @@
-package net.pitan76.mpltemplateideplugin
+package net.pitan76.mpltemplateideplugin.util
 
 import java.io.File
 import java.time.Year

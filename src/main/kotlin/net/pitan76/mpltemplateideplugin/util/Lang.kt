@@ -1,4 +1,4 @@
-package net.pitan76.mpltemplateideplugin
+package net.pitan76.mpltemplateideplugin.util
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey

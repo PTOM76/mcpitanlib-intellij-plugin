@@ -1,5 +1,4 @@
-
-package net.pitan76.mpltemplateideplugin
+package net.pitan76.mpltemplateideplugin.util
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,7 +15,7 @@ class TemplateDownloader {
         
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
-            throw RuntimeException("テンプレートのダウンロードに失敗しました")
+            throw RuntimeException(Lang.get("message.faileddownload"))
         }
         
         val zipInputStream = ZipInputStream(response.body!!.byteStream())
@@ -24,7 +23,6 @@ class TemplateDownloader {
         
         while (entry != null) {
             if (!entry.isDirectory) {
-                // ルートディレクトリ名を除去（例: TemplateMod-for-MCPitanLib-main/）
                 val relativePath = entry.name.substringAfter('/')
                 if (relativePath.isNotEmpty()) {
                     val file = File(targetPath, relativePath)

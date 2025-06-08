@@ -7,9 +7,12 @@ import com.intellij.openapi.project.Project
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.intellij.openapi.util.io.FileUtil
+import net.pitan76.mpltemplateideplugin.util.Lang
+import net.pitan76.mpltemplateideplugin.util.ProjectConfig
+import net.pitan76.mpltemplateideplugin.util.generateLicense
 import java.io.File
 
-class TemplateConfigurator(private val project: Project) {
+class TemplateSetup(private val project: Project) {
 
     fun configure(config: ProjectConfig) {
         ApplicationManager.getApplication().runWriteAction {
@@ -30,7 +33,8 @@ class TemplateConfigurator(private val project: Project) {
             renameAssetsAndData(basePath, config)
             updatePackMcmeta(basePath, config)
 
-            generateLicense(basePath,
+            generateLicense(
+                basePath,
                 config.license,
                 config.authors
             )
@@ -62,7 +66,6 @@ class TemplateConfigurator(private val project: Project) {
     }
 
     private fun updateMainClass(basePath: String, config: ProjectConfig) {
-        // プロジェクトのディレクトリを探索し、関連するクラス名を更新
         val platforms = listOf("common", "fabric", "forge", "neoforge")
         platforms.forEach { platform ->
             val srcDir = File(basePath, "$platform/src/main/java")
@@ -95,7 +98,6 @@ class TemplateConfigurator(private val project: Project) {
         }
     }
 
-    // 他のメソッドは前回と同じ...
     private fun updateGradleProperties(basePath: String, config: ProjectConfig) {
         val file = File(basePath, "gradle.properties")
         if (!file.exists()) return

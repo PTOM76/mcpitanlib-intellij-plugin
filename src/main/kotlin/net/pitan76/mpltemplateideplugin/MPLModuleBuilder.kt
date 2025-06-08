@@ -9,9 +9,12 @@ import com.intellij.openapi.module.StdModuleTypes
 import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.vfs.VirtualFile
+import net.pitan76.mpltemplateideplugin.util.Lang
+import net.pitan76.mpltemplateideplugin.util.ProjectConfig
+import net.pitan76.mpltemplateideplugin.util.TemplateDownloader
 import javax.swing.Icon
 
-class MPLProjectModuleBuilder : ModuleBuilder() {
+class MPLModuleBuilder : ModuleBuilder() {
 
     private val repoName = "Pitan76/TemplateMod-for-MCPitanLib"
 
@@ -28,7 +31,7 @@ class MPLProjectModuleBuilder : ModuleBuilder() {
     override fun getBuilderId(): String = "MCPitanLib"
 
     override fun getNodeIcon(): Icon? {
-        return IconLoader.getIcon("/icons/mcpitanlib.png", MPLProjectModuleBuilder::class.java)
+        return IconLoader.getIcon("/icons/mcpitanlib.png", MPLModuleBuilder::class.java)
     }
 
     override fun setupRootModel(modifiableRootModel: ModifiableRootModel) {
@@ -41,7 +44,7 @@ class MPLProjectModuleBuilder : ModuleBuilder() {
     }
 
     override fun getCustomOptionsStep(context: WizardContext, parentDisposable: Disposable): ModuleWizardStep? {
-        return MPLProjectGeneratorPanel(this)
+        return MPLModuleWizardStep(this)
     }
 
     fun setProjectConfig(config: ProjectConfig) {
@@ -53,7 +56,7 @@ class MPLProjectModuleBuilder : ModuleBuilder() {
             val templateDownloader = TemplateDownloader()
             templateDownloader.downloadTemplate(root.path, repoName)
 
-            val configurator = TemplateConfigurator(project)
+            val configurator = TemplateSetup(project)
             configurator.configureFromPath(root.path, config)
         } catch (e: Exception) {
             throw RuntimeException("${Lang.get("message.failedgenerate")}: ${e.message}", e)

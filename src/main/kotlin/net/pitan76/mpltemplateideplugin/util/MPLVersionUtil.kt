@@ -1,4 +1,4 @@
-package net.pitan76.mpltemplateideplugin
+package net.pitan76.mpltemplateideplugin.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,18 +26,6 @@ class MPLVersionUtil() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 emptyList()
-            }
-        }
-    }
-
-    suspend fun getLatestVersion(mcversion: String): String? {
-        return withContext(Dispatchers.IO) {
-            try {
-                val versions = getVersions(mcversion)
-                versions.lastOrNull()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                 null
             }
         }
     }

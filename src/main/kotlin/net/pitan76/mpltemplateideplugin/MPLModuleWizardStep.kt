@@ -6,11 +6,14 @@ import com.intellij.ui.dsl.builder.panel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.pitan76.mpltemplateideplugin.util.Lang
+import net.pitan76.mpltemplateideplugin.util.MPLVersionUtil
+import net.pitan76.mpltemplateideplugin.util.ProjectConfig
 import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
-class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : ModuleWizardStep() {
+class MPLModuleWizardStep(private val builder: MPLModuleBuilder) : ModuleWizardStep() {
 
     private val modIdField = JTextField().apply {
         columns = 20

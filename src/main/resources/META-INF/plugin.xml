@@ -13,7 +13,7 @@
     <depends>com.intellij.modules.lang</depends>
     <resource-bundle>messages.lang</resource-bundle>
     <extensions defaultExtensionNs="com.intellij">
-        <moduleBuilder builderClass="net.pitan76.mpltemplateideplugin.MPLProjectModuleBuilder"/>
+        <moduleBuilder builderClass="net.pitan76.mpltemplateideplugin.MPLModuleBuilder"/>
         <notificationGroup id="TemplateMod" displayType="BALLOON" bundle="messages.lang"
                            key="notification.group.templatemod"/>
     </extensions>
