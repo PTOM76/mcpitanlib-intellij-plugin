@@ -26,19 +26,22 @@ class TemplateConfigurator(private val project: Project) {
             updateMainClass(basePath, config)
             renameMixins(basePath, config)
 
-            // 成功通知
+            generateLicense(
+                config.license,
+                config.authors
+            )
+
             Notification(
                 "TemplateMod",
-                "MCPitanLib TemplateMod",
+                "MCPitanLib",
                 Lang.get("notification.success"),
                 NotificationType.INFORMATION
             ).notify(project)
 
         } catch (e: Exception) {
-            // エラー通知
             Notification(
                 "TemplateMod",
-                "MCPitanLib TemplateMod",
+                "MCPitanLib",
                 Lang.get("notification.error", e.message ?: "Unknown error"),
                 NotificationType.ERROR
             ).notify(project)

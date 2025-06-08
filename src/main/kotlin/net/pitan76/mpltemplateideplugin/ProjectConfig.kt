@@ -9,7 +9,8 @@ data class ProjectConfig(
     val packageName: String,
     val authors: String,
     val description: String,
+    val license: String,
     val minecraftVersion: String,
     val mcpitanlibVersion: String,
-    val enabledPlatforms: Set<String> = emptySet()
+    val enabledPlatforms: Set<String> = emptySet(),
 )

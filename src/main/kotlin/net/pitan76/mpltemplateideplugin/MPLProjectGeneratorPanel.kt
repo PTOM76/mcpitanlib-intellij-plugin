@@ -41,6 +41,20 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
     }
 
     private val descriptionArea = JTextArea(3, 30)
+
+    private val licenseCombo = ComboBox<String>().apply {
+        addItem("MIT")
+        addItem("Apache-2.0")
+        addItem("GPL-3.0")
+        addItem("LGPL-3.0")
+        addItem("MPL-2.0")
+        addItem("CC0-1.0")
+        addItem("All Rights Reserved")
+        addItem("Unlicense")
+        addItem("Custom")
+        selectedItem = "MIT"
+    }
+
     private val minecraftVersions = listOf(
         "1.21.5", "1.21.4", "1.21.3", "1.21.1",
         "1.20.4", "1.20.1", "1.19.2", "1.18.2", "1.16.5"
@@ -128,6 +142,7 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
                 row("Class Name:") { cell(classNameField) }
                 row("Authors:") { cell(authorsField) }
                 row("Description:") { scrollCell(descriptionArea) }
+                row("License:") { cell(licenseCombo) }
             }
             group(Lang.get("label.versionsettings")) {
                 row("Minecraft Version:") { cell(minecraftVersionCombo) }
@@ -191,6 +206,7 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
             className = classNameField.text.trim(),
             authors = authorsField.text.trim(),
             description = descriptionArea.text.trim(),
+            license = licenseCombo.selectedItem as String,
             minecraftVersion = minecraftVersionCombo.selectedItem as String,
             mcpitanlibVersion = mcpitanlibVersionCombo.selectedItem as String,
             enabledPlatforms = enabledPlatforms
@@ -229,8 +245,8 @@ class MPLProjectGeneratorPanel(private val builder: MPLProjectModuleBuilder) : M
             return false
         }
 
-        if ((mcpitanlibVersionCombo.selectedItem as? String).isNullOrBlank() || mcpitanlibVersionCombo.selectedItem == "取得失敗") {
-            JOptionPane.showMessageDialog(null, "MCPitanLibバージョンの取得に失敗しました。再試行してください。")
+        if ((mcpitanlibVersionCombo.selectedItem as? String).isNullOrBlank() || mcpitanlibVersionCombo.selectedItem == Lang.get("label.failedfetching")) {
+            JOptionPane.showMessageDialog(null, Lang.get("message.failedfetchmcpitanlib"))
             return false
         }
         return true
